@@ -105,58 +105,71 @@ function getPasswordOptions() {
       uppercase: uppercase,
       numbers: numbers,
       specChar: specChar,
-
     };
-
-    console.log(passOpt);
-
   } else {
     alert("Your password must be between 8 and 128 characters long");
     getPasswordOptions();
   }
 
-
-
   return passOpt;
-
 }
 
 // Function for getting a random element from an array
 function getRandom(arr) {
-  return Math.floor(Math.random * arr.length);
+  let id = Math.floor(Math.random() * arr.length);
+  console.log(id + ": ID");
+  return id;
 }
 
 // Function to generate password with user input
-function generatePassword(specialCharacters, lowerCasedCharacters, upperCasedCharacters, numericCharacters) {
+function generatePassword(
+  specialCharacters,
+  lowerCasedCharacters,
+  upperCasedCharacters,
+  numericCharacters
+) {
   let options = getPasswordOptions();
-  let pass = '';
+  let pass = "";
   console.log(pass, options);
 
+  //Turn off Choices that were not selected
   for (i = 0; i < options.length; i++) {
-    let whichType = [specialCharacters, numericCharacters, upperCasedCharacters, lowerCasedCharacters];
-    console.log(whichType);
+    let whichType = [
+      specialCharacters,
+      numericCharacters,
+      upperCasedCharacters,
+      lowerCasedCharacters,
+    ];
 
-    if (passOpt.specChar == false) {
-      const index = whichType.indexOf(specialCharacters);
-      whichType.splice(index, 1);
-    } else if (passOpt.numbers == false) {
-      const index = whichType.indexOf(numericCharacters);
-      whichType.splice(index, 1);
-    } else if (passOpt.lowercase == false) {
-      const index = whichType.indexOf(lowerCasedCharacters);
-      whichType.splice(index, 1);
-    } else if (passOpt.uppercase == false) {
-      const index = whichType.indexOf(upperCasedCharacters);
-      whichType.splice(index, 1);
+    let discard;
+
+    if (!options.lowercase) {
+      discard = whichType.splice(whichType.indexOf(lowerCasedCharacters), 1);
+      console.log(whichType, discard, 'lower');
     }
 
-    let choice = Math.floor(Math.random() * whichType.length)
-    pass.concat(whichType[choice][getRandom(whichType[choice])]);
-    console.log(pass);
+    if (!options.specChar) {
+      discard = whichType.splice(whichType.indexOf(specialCharacters), 1);
+      console.log(whichType, discard, 'spec');
+    }
+    
+    if (!options.numbers) {
+      discard = whichType.splice(whichType.indexOf(numericCharacters), 1);
+      console.log(whichType, discard, 'num');
+    }
+
+    if (!options.uppercase) {
+      discard = whichType.splice(whichType.indexOf(upperCasedCharacters), 1);
+      console.log(whichType, discard, 'upper');
+    }
+
+    let choice = getRandom(whichType);
+    let actChoice = getRandom(whichType[choice]);
+    pass = pass.concat(whichType[choice][actChoice]);
+    console.log(pass, whichType[choice], whichType, options);
   }
 
   return pass;
-
 }
 
 // Get references to the #generate element
