@@ -117,7 +117,6 @@ function getPasswordOptions() {
 // Function for getting a random element from an array
 function getRandom(arr) {
   let id = Math.floor(Math.random() * arr.length);
-  console.log(id + ": ID");
   return id;
 }
 
@@ -130,7 +129,6 @@ function generatePassword(
 ) {
   let options = getPasswordOptions();
   let pass = "";
-  console.log(pass, options);
 
   //Turn off Choices that were not selected
   for (i = 0; i < options.length; i++) {
@@ -145,28 +143,24 @@ function generatePassword(
 
     if (!options.lowercase) {
       discard = whichType.splice(whichType.indexOf(lowerCasedCharacters), 1);
-      console.log(whichType, discard, 'lower');
     }
 
     if (!options.specChar) {
       discard = whichType.splice(whichType.indexOf(specialCharacters), 1);
-      console.log(whichType, discard, 'spec');
     }
     
     if (!options.numbers) {
       discard = whichType.splice(whichType.indexOf(numericCharacters), 1);
-      console.log(whichType, discard, 'num');
     }
 
     if (!options.uppercase) {
       discard = whichType.splice(whichType.indexOf(upperCasedCharacters), 1);
-      console.log(whichType, discard, 'upper');
     }
 
+    //Create Password
     let choice = getRandom(whichType);
     let actChoice = getRandom(whichType[choice]);
     pass = pass.concat(whichType[choice][actChoice]);
-    console.log(pass, whichType[choice], whichType, options);
   }
 
   return pass;
